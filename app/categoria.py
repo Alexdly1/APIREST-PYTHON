@@ -75,7 +75,7 @@ def insert_categoria():
     db.session.commit()
     return categoria_schema.jsonify(nuevo_registro)
 
-# PUT ############################################################
+# PUT  ############################################################
 @app.route('/categoria/<id>',methods=['PUT'])
 def update_categoria(id):
     actualizarcategoria = Categoria.query.get(id)

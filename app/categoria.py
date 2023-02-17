@@ -29,7 +29,7 @@ class Categoria(db.Model):
 
     #Constructor cada vez que se instancia la clase
     #Al recibir asignar los datos
-    def __init_(self,cat_nom,cat_desp):
+    def __init__(self,cat_nom,cat_desp):
         self.cat_nom = cat_nom
         self.cat_desp = cat_desp
     #Modelo de Datos completado
@@ -62,6 +62,18 @@ def get_categoria_x_id(id):
     una_categoria = Categoria.query.get(id)
     return categoria_schema.jsonify(una_categoria)
 
+# Post #########################################################
+@app.route('/categoria',methods=['POST'])
+def insert_categoria():
+    data = request.get_json(force=True)
+    cat_nom = data['cat_nom']
+    cat_desp = data['cat_desp']
+    
+    nuevo_registro=Categoria(cat_nom,cat_desp)
+    
+    db.session.add(nuevo_registro)
+    db.session.commit()
+    return categoria_schema.jsonify(nuevo_registro)
 
 # Mensaje de bienvenida
 @app.route('/',methods=['GET'])

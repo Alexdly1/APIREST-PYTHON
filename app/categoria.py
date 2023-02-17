@@ -1,7 +1,7 @@
 #Importar Librerias Instaladas
 #pip install flask
 #pip install flask-sqlalchemy   -----Para Conectar a una BD SQL
-#pip install flack-marshmallow  -----Definir Esquema con la BD
+#pip install flask-marshmallow  -----Definir Esquema con la BD
 #pip install marshmallow-sqlalchemy
 #pip install pymysql            ------Para Conectar a MySQL Driver MySQL
 from flask import Flask,request,jsonify
@@ -37,6 +37,24 @@ class Categoria(db.Model):
 #Crea las tablas
 with app.app_context():
     db.create_all()
+
+
+# Esquema Categoria
+class CategoriaSchema(ma.Schema):
+    class Meta:
+        fields = ('cat_id','cat_nom','cat_desp')
+
+# Una sola respuesta
+categoria_schema = CategoriaSchema()
+# Cuando sena muchas resouestasd
+categoria_schema = CategoriaSchema(many=True)
+
+# Get##########################################################
+@app.route('/categoria',methods=['GET'])
+def get_categoria():
+    all_categoria = Categoria.query.all()
+    result = categoria_schema.dump(all_categoria)
+    return jsonify(result)
 
 # Mensaje de bienvenida
 @app.route('/',methods=['GET'])

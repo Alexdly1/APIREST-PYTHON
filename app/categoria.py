@@ -46,15 +46,22 @@ class CategoriaSchema(ma.Schema):
 
 # Una sola respuesta
 categoria_schema = CategoriaSchema()
-# Cuando sena muchas resouestasd
-categoria_schema = CategoriaSchema(many=True)
+# Cuando sena muchas respuestas
+categorias_schema = CategoriaSchema(many=True)
 
 # Get##########################################################
 @app.route('/categoria',methods=['GET'])
 def get_categoria():
     all_categoria = Categoria.query.all()
-    result = categoria_schema.dump(all_categoria)
+    result = categorias_schema.dump(all_categoria)
     return jsonify(result)
+
+# Get x id ##########################################################
+@app.route('/categoria/<id>',methods=['GET'])
+def get_categoria_x_id(id):
+    una_categoria = Categoria.query.get(id)
+    return categoria_schema.jsonify(una_categoria)
+
 
 # Mensaje de bienvenida
 @app.route('/',methods=['GET'])

@@ -80,8 +80,9 @@ def insert_categoria():
 def update_categoria(id):
     actualizarcategoria = Categoria.query.get(id)
 
-    cat_nom = request.json['cat_nom']
-    cat_desp = request.json['cat_desp']
+    data = request.get_json(force=True)
+    cat_nom = data['cat_nom']
+    cat_desp = data['cat_desp']
 
     actualizarcategoria.cat_nom = cat_nom
     actualizarcategoria.cat_desp = cat_desp
